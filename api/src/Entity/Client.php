@@ -18,16 +18,16 @@ class Client
     #[ORM\Column(type: 'integer', nullable: true)]
     private $regNumber;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $fullName;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $shortName;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $brandName;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $region;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -61,7 +61,7 @@ class Client
     private $acc;
 
     #[ORM\Column(type: 'integer')]
-    private $status;
+    private $status = 0;
 
     public function getId(): ?int
     {

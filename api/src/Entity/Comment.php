@@ -2,12 +2,18 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\NumericFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 #[ApiResource]
+#[ApiFilter(NumericFilter::class, properties: ['clientId'])]
+#[ApiFilter(OrderFilter::class, properties: ['publicationDate' => 'ASC'])]
 class Comment
 {
     #[ORM\Id]
@@ -18,11 +24,17 @@ class Comment
     #[ORM\Column(type: 'integer')]
     private $clientId;
 
-    #[ORM\Column(type: 'date')]
+    #[ORM\Column(type: 'datetime')]
     private $publicationDate;
 
     #[ORM\Column(type: 'string', length: 1000)]
     private $content;
+
+    #[ORM\PrePersist]
+    public function onPersist()
+    {
+        $this->publicationDate = new \DateTime();
+    }
 
     public function getId(): ?int
     {
